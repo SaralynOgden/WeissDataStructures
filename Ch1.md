@@ -126,3 +126,116 @@ This code is legal, but it will have the biproduct of making the variable 'a' al
 
 1.8
 /* is comment syntax in C++
+
+1.9
+
+```
+#include <fstream>
+#include <iostream>
+#include<stdio.h>
+#include <string.h>
+using namespace std;
+
+struct Node
+{
+  string value;
+  Node *next;
+};
+
+void createLinkedListFromStream(Node & startOfList) {
+  fstream newfile;
+  newfile.open("text.txt",ios::in);
+  Node *currentIndexInList = &startOfList;
+  
+  if (newfile.is_open()){
+      string tp;
+      while(getline(newfile, tp)){
+        currentIndexInList->value = tp;
+        if(newfile.peek() > 0) {
+          currentIndexInList->next = new Node();
+        } else {
+          currentIndexInList->next = NULL;
+        }
+        currentIndexInList = currentIndexInList->next;
+      }
+
+      currentIndexInList = NULL;
+      
+      newfile.close();
+  }
+}
+
+string getLastLineOfLinkedList(Node & linkedList) {
+  Node *currentIndexInList = &linkedList;
+
+  while (currentIndexInList->next != 0) {
+    currentIndexInList = currentIndexInList->next;
+  }
+  return currentIndexInList->value;
+}
+
+void printAllStringsLargerThanLastStringInList(Node & linkedList) {
+  string lastLine = getLastLineOfLinkedList(linkedList);
+  Node *currentIndexInList = &linkedList;
+
+  while (currentIndexInList->next != 0) {
+    if (strcmp(currentIndexInList->value.c_str(), lastLine.c_str()) > 0) {
+      cout << currentIndexInList->value << endl;
+    }
+    currentIndexInList = currentIndexInList->next;
+  }
+
+}
+
+int main() {
+  Node linkedList = {
+      .value = "",
+      .next = NULL
+  };
+
+  createLinkedListFromStream(linkedList);
+  printAllStringsLargerThanLastStringInList(linkedList);
+}
+```
+
+1.10
+
+```
+#include <fstream>
+#include <iostream>
+#include <string.h>
+#include <vector>
+using namespace std;
+
+vector<string> createVectorFromStream() {
+  fstream newfile;
+  newfile.open("text.txt",ios::in);
+  vector<string> streamVector(10);
+  
+  if (newfile.is_open()){
+      string tp;
+      while(getline(newfile, tp)){
+        streamVector.push_back(tp);
+      }   
+      newfile.close();
+  }
+
+  return streamVector;
+}
+
+void printAllStringsLargerThanLastStringInList(vector<string> & streamVector) {
+
+  for (unsigned i=0; i < streamVector.size() - 1 ; i++) {
+    if (strcmp(streamVector[i].c_str(), streamVector.back().c_str()) > 0) {
+      cout << streamVector[i] << endl;
+    }
+  }
+
+}
+
+int main() {
+  vector<string> streamVector = createVectorFromStream();
+  printAllStringsLargerThanLastStringInList(streamVector);
+}
+```
+
