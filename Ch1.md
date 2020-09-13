@@ -99,4 +99,30 @@
             c
       
   </li>
+  <li>
+    a = 5 </br>
+    b = 5 </br>
+    c = 5 </br>
+    
+    a -> [5] <- b
+          ^
+          c 
+    
+  </li>
+    <li>
+    a = 2 </br>
+    b = 2 </br>
+    c = 2 </br>
+    
+    a -> [2] <- b
+          ^
+          c 
+    
+  </li>
 </ol>
+
+1.7
+This code is legal, but it will have the biproduct of making the variable 'a' also immutable.
+
+1.8
+/* is comment syntax in C++
