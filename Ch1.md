@@ -239,3 +239,91 @@ int main() {
 }
 ```
 
+1.11
+
+```
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+int getCheckSumFromFile(string fileName) {
+  int checkSumTotal = 0;
+  fstream newfile;
+  newfile.open(fileName,ios::in);
+  
+  if (newfile.is_open()){
+      string tp;
+      while(getline(newfile, tp)){
+        for (int i = 0; i < tp.length(); i++) {
+          checkSumTotal += tp[0];
+        }
+      }   
+      newfile.close();
+  }
+  return checkSumTotal;
+}
+
+int main() {
+  cout << getCheckSumFromFile("text.txt") << endl;
+}
+```
+
+1.12
+
+```
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct FileMetadata {
+  int totalLines;
+  int totalWords;
+  int totalCharacters;
+};
+
+int getTotalWordsInLine(string line) {
+  bool lastCharWasSpace = true;
+  int wordCount = 0;
+  int i;
+  for (i = 0; i < line.length(); i++) {
+    if (line[i] == ' ' && !lastCharWasSpace) {
+      wordCount++;
+    } else if (line[i] != ' ') {
+      lastCharWasSpace = false;
+    }
+  }
+  if (line.length() > 0 && line[i - 1] != ' ') {
+    wordCount++;
+  }
+  return wordCount;
+}
+
+FileMetadata getFileMetadata(string fileName) {
+  FileMetadata metadata;
+  metadata.totalLines = 0;
+  metadata.totalWords = 0;
+  metadata.totalCharacters = 0;
+  fstream newfile;
+  newfile.open(fileName,ios::in);
+  
+  if (newfile.is_open()){
+      string tp;
+      while(getline(newfile, tp)){
+        metadata.totalLines++;
+        metadata.totalWords += getTotalWordsInLine(tp);
+        metadata.totalCharacters += tp.length();
+      }   
+      newfile.close();
+  }
+  return metadata;
+}
+
+int main() {
+  FileMetadata metadata = getFileMetadata("text.txt");
+  cout << "total lines: " + to_string(metadata.totalLines) << endl;
+  cout << "total words: " + to_string(metadata.totalWords) << endl;
+  cout << "total characters: " + to_string(metadata.totalCharacters) << endl;
+}
+```
