@@ -65,6 +65,8 @@ A friend declaration can be made for the input and output functions. These decla
 
 2.12
 
+When these variables are no longer needed, they must be explicitly deleted.
+
 2.13
 
 sizeof() includes the memory consumed by private members in the value returned
@@ -76,3 +78,39 @@ In this situation, nothing in the class would be useable. It would just be a loc
 2.15
 
 If the rhs parameter is passed by value, then the complier would first make one copy of the object to get the value and then make a second copy of the object to do the operation.
+
+2.16
+
+<ol type="a">
+  <li>Because all of the constructors use the reduce function and the numer and denom are not accessible outside of the class, we can simply use:
+
+```
+bool Rational::operator== (const Rational & rhs) const
+{
+  return numer == rhs.numer && denom == rhs.denom;
+}
+```
+
+and 
+
+```
+bool Rational::operator!= (const Rational & rhs) const
+{
+  return !(&rhs == this);
+}
+```
+
+  </li>
+  <li> The values don't need to be reduced at the end of this function because the original rational is reduced and by reducing the Rationals with the denominators flipped we are doing all of the reduction that is possible.
+
+```
+Rational Rational::operator*(const Rational & rhs) const
+{
+  Rational newLhs = Rational(numer, rhs.denom);
+  Rational newRhs = Rational(rhs.numer, denom);
+  return Rational(newLhs.numer * newRhs.numer, newLhs.denom * newRhs.denom);
+}
+```
+
+  </li>
+</ol>
