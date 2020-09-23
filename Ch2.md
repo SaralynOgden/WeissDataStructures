@@ -108,7 +108,8 @@ Rational Rational::operator*(const Rational & rhs) const
 {
   Rational newLhs = Rational(numer, rhs.denom);
   Rational newRhs = Rational(rhs.numer, denom);
-  return Rational(newLhs.numer * newRhs.numer, newLhs.denom * newRhs.denom);
+  newLhs *= newRhs;
+  return newLhs;
 }
 ```
 
