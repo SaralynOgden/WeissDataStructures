@@ -114,4 +114,27 @@ Rational Rational::operator*(const Rational & rhs) const
 ```
 
   </li>
+  <li></li>
+  <li>
+
+```
+Rational Rational::operator^( int rhs ) const {
+  Rational *copyRational = new Rational(*this);
+  for (int i = 1; i < rhs; i++) {
+    copyRational->numer *= numer;
+    copyRational->denom *= denom;
+  }
+  return *copyRational;
+}
+```
+
+  </li>
+</ol>
+
+2.17
+
+2.18
+<ol type="a">
+  <li>string</li>
+  <li></li>
 </ol>
