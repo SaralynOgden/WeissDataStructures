@@ -176,7 +176,7 @@ string string::substring( int startIndex, int endIndex ) const
 ```
 string::string( int bufferSize ) 
 {
-  if (bufferSize >= 0)
+  if (bufferSize > 0)
     buffer = new char [ bufferSize ];
   else
     buffer = new char [0];
