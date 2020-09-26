@@ -38,6 +38,8 @@ If none of a class' fields are pointers, it is acceptable to use the default des
 
 2.7
 
+(I don't believe this subject was actually covered in this chapter and it is probably a holdover from edition 1 of the book.) Inline functions are functions that are copied into memory at each location where they are called. This makes them faster to access since there is no search for them as they are called. However, because they are copied throughout the code, they can cause massive expansion of the code base and lead to a glut of code. Current compliers decide for you if the function should be inline and it is so much a choice of the user. More detailed explanations: [1](https://www.cplusplus.com/articles/2LywvCM9/), [2](https://stackoverflow.com/questions/1759300/when-should-i-write-the-keyword-inline-for-a-function-method#:~:text=C%2B%2B%20inline%20function%20is%20powerful,is%20called%20at%20compile%20time.&text=The%20compiler%20can%20ignore%20the,is%20more%20than%20a%20line.)
+
 2.8
 
 The ., *, ?:, and sizeof operators cannot be overloading
@@ -55,7 +57,7 @@ A friend declaration can be made for the input and output functions. These decla
 * Rational(const IntType & numerator = 0), n = 3, d = 1
 * Rational(const IntType & numerator, const IntType denominator), n = 4, d = 3
 * Rational(const IntType & numerator = 0), n = 0, d = 1
-* 
+* Rational(const IntType & numerator, const IntType denominator), n = 4, d =3
 * Declares a function, will error out as no function is present
 * Rational(const IntType & numerator, const IntType denominator), Pointer to Rational object that has the fields n = 4, d = 3
 * Rational(const IntType & numerator = 0), Pointer to Rational object that has the fields n = 5, d = 1
@@ -133,8 +135,52 @@ Rational Rational::operator^( int rhs ) const {
 
 2.17
 
+
+
 2.18
 <ol type="a">
   <li>string</li>
-  <li></li>
+  <li>
+
+```
+string string::substring( int startIndex, int endIndex ) const
+{
+    if( startIndex < 0 )
+        throw StringIndexOutOfBoundsException( startIndex, length( ) );
+    if ( endIndex >= strLength )
+        throw StringIndexOutOfBoundsException( endIndex, length( ) );
+    string substring;
+    for (int i = startIndex; i < endIndex; i++)
+    {
+        substring += buffer[i];
+    }
+    return substring;
+}
+```
+
+  </li>
+  <li> The first one will declare a string and assign it immediately. The second will create a null string variable and then do a copy of the substring into that variable.
 </ol>
+
+2.19
+<ol type="a">
+  <li>It will not be caught by the complier since it will be treated as an implicit conversion</li>
+  <li>
+
+`string( char ch )` and `const string & operator+=( const string & rhs );`
+  </li> 
+</ol>
+
+2.20
+
+```
+string::string( int bufferSize ) 
+{
+  if (bufferSize >= 0)
+    buffer = new char [ bufferSize ];
+  else
+    buffer = new char [0];
+}
+```
+
+When a bufferSize of zero is passed through, the string initializes, but is essentially a pointer to a single bit that is empty.
